@@ -1,3 +1,5 @@
+use std::ops::{AddAssign, BitOrAssign, BitOr, BitAnd, BitXor, Add};
+
 pub const ZERO_BIT_MASK: u8 = 0b_0000_0001;
 pub const FIRST_BIT_MASK: u8 = 0b_0000_0010;
 pub const SECOND_BIT_MASK: u8 = 0b_0000_0100;
@@ -71,6 +73,55 @@ impl From<u8> for UberByte {
         UberByte {
             value: value,
         }
+    }
+}
+
+impl AddAssign for UberByte {
+    fn add_assign(&mut self, rhs: Self) {
+        let sum = self.clone() + rhs;
+        self.value = sum.value;
+    }
+}
+
+impl Add for UberByte {
+    type Output = Self;
+
+    fn add(self, rhs: Self) -> Self::Output {
+        let sum: Option<u8> = self.value.checked_add(rhs.value);
+        match sum {
+            Some(s) => UberByte::from(s),
+            None => UberByte::from(ALL_BIT_MASK),
+        }
+    }
+}
+
+impl BitOr for UberByte {
+    type Output = Self;
+
+    fn bitor(self, rhs: Self) -> Self::Output {
+        UberByte::from(self.value | rhs.value)
+    }
+}
+
+impl BitOrAssign for UberByte {
+    fn bitor_assign(&mut self, rhs: Self) {
+        self.value = self.value | rhs.value;
+    }
+}
+
+impl BitAnd for UberByte {
+    type Output = Self;
+
+    fn bitand(self, rhs: Self) -> Self::Output {
+        UberByte::from(self.value & rhs.value)
+    }
+}
+
+impl BitXor for UberByte {
+    type Output = Self;
+
+    fn bitxor(self, rhs: Self) -> Self::Output {
+        UberByte::from(self.value ^ rhs.value)
     }
 }
 
