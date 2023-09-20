@@ -2,6 +2,8 @@
 
 > A humanly usable library to work with bytes
 
+> [![Rust](https://github.com/dejanfajfar/uberbyte.rs/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/dejanfajfar/uberbyte.rs/actions/workflows/ci.yml)
+
 There is nothing in this library that cannot be done by normal bit and byte operations. 
 
 My goal is to make it easier to interact with individual bits and bytes.
