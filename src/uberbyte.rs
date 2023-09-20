@@ -1,4 +1,6 @@
-use std::ops::{AddAssign, BitOrAssign, BitOr, BitAnd, BitXor, Add};
+use std::ops::{Add, AddAssign, BitAnd, BitAndAssign, BitOr, BitOrAssign, BitXor, BitXorAssign};
+
+pub mod try_from;
 
 pub const ZERO_BIT_MASK: u8 = 0b_0000_0001;
 pub const FIRST_BIT_MASK: u8 = 0b_0000_0010;
@@ -11,19 +13,21 @@ pub const SEVENTH_BIT_MASK: u8 = 0b_1000_0000;
 pub const NONE_BIT_MASK: u8 = 0b_0000_0000;
 pub const ALL_BIT_MASK: u8 = 0b_1111_1111;
 
-#[derive(Debug, Clone)]
+#[derive(Debug)]
+pub enum UberByteError {
+    ValueOverflow,
+    ValueUnderflow
+}
+
+#[derive(Debug, Clone, PartialEq, PartialOrd, Eq, Ord)]
 pub struct UberByte {
     value: u8,
 }
 
 impl UberByte {
-    pub fn min() -> Self {
-        UberByte::from(NONE_BIT_MASK)
-    }
+    pub const MAX: UberByte = UberByte { value: ALL_BIT_MASK };
 
-    pub fn max() -> Self {
-        UberByte::from(ALL_BIT_MASK)
-    }
+    pub const MIN: UberByte = UberByte { value: NONE_BIT_MASK };
 
     pub fn set(&self, bit_mask: u8) -> UberByte {
         let masked_value = (self.value ^ bit_mask) | self.value;
@@ -35,7 +39,7 @@ impl UberByte {
         self.value & bit_mask != 0
     }
 
-    pub fn is_bit_0_set(&self) -> bool{
+    pub fn is_bit_0_set(&self) -> bool {
         self.are_set(ZERO_BIT_MASK)
     }
 
@@ -70,9 +74,7 @@ impl UberByte {
 
 impl From<u8> for UberByte {
     fn from(value: u8) -> Self {
-        UberByte {
-            value: value,
-        }
+        UberByte { value: value }
     }
 }
 
@@ -117,11 +119,23 @@ impl BitAnd for UberByte {
     }
 }
 
+impl BitAndAssign for UberByte {
+    fn bitand_assign(&mut self, rhs: Self) {
+        self.value = self.value & rhs.value;
+    }
+}
+
 impl BitXor for UberByte {
     type Output = Self;
 
     fn bitxor(self, rhs: Self) -> Self::Output {
         UberByte::from(self.value ^ rhs.value)
+    }
+}
+
+impl BitXorAssign for UberByte {
+    fn bitxor_assign(&mut self, rhs: Self) {
+        self.value = self.value ^ rhs.value;
     }
 }
 
@@ -150,11 +164,27 @@ mod test {
     }
 
     #[test]
-    fn are_set(){
+    fn are_set() {
         let test_object = UberByte::from(0b_0001_1000);
 
         assert!(test_object.are_set(THIRD_BIT_MASK));
         assert!(test_object.are_set(FOURTH_BIT_MASK));
         assert!(test_object.are_set(THIRD_BIT_MASK | FOURTH_BIT_MASK));
+    }
+
+    #[test]
+    fn add_overflow() {
+        let augend = UberByte::MAX;
+        let added = UberByte::MAX;
+
+        assert_eq!(UberByte::MAX, augend + added)
+    }
+
+    #[test]
+    fn add() {
+        let augend = UberByte::from(5);
+        let added = UberByte::from(6);
+
+        assert_eq!(UberByte::from(11), augend + added);
     }
 }
