@@ -35,6 +35,16 @@ impl UberByte {
         return UberByte::from(masked_value);
     }
 
+    pub fn clear(&self, bit_mask: u8) -> UberByte {
+        let masked_value = (self.value ^ bit_mask) & self.value;
+
+        return UberByte::from(masked_value);
+    }
+
+    pub fn flip(&self) -> UberByte {
+        return UberByte::from(!self.value);
+    }
+
     pub fn are_set(&self, bit_mask: u8) -> bool {
         self.value & bit_mask != 0
     }
@@ -157,10 +167,41 @@ mod test {
 
     #[test]
     fn set_per_mask() {
-        let test_object = UberByte::from(0b_0001_1000);
+        let test_object = UberByte::MIN;
+        let test_result = test_object.set(0b_1001_0000);
+
+        assert_eq!(test_result.value, 0b_1001_0000);
+    }
+
+    #[test]
+    fn set_per_mask_collision(){
+        let test_object = UberByte::from(0b_1000_1000);
         let test_result = test_object.set(0b_1001_0000);
 
         assert_eq!(test_result.value, 0b_1001_1000);
+    }
+
+    #[test]
+    fn clear_per_mask() {
+        let test_object = UberByte::MAX;
+        let test_result = test_object.clear(0b_1001_0000);
+
+        assert_eq!(test_result.value, 0b_0110_1111);
+    }
+
+    #[test]
+    fn flip(){
+        assert_eq!(UberByte::MAX.flip(), UberByte::MIN);
+        assert_eq!(UberByte::MIN.flip(), UberByte::MAX);
+        assert_eq!(UberByte::from(0b_0101_0101).flip(), UberByte::from(0b_1010_1010));
+    }
+
+    #[test]
+    fn clear_per_mask_collision(){
+        let test_object = UberByte::from(0b_1010_0010);
+        let test_result = test_object.clear(0b_1001_0000);
+
+        assert_eq!(test_result.value, 0b_0010_0010);
     }
 
     #[test]
