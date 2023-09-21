@@ -1,9 +1,9 @@
 [package]
 name = "uberbyte"
-version = "0.1.0"
+version = "0.0.1"
 edition = "2021"
 authors = ["Dejan Fajfar <dejan@fajfar.com>"]
-license = "Apache-2.0"
+license = "MIT"
 repository = "https://github.com/dejanfajfar/uberbyte.rs"
 description = "Byte manipulation for dummies"
 readme = "CARGO_README.md"

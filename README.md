@@ -1,8 +1,8 @@
 # uberbyte.rs
 
-> A humanly usable library to work with bytes
+> Byte manipulation for dummies
 
-> [![Rust](https://github.com/dejanfajfar/uberbyte.rs/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/dejanfajfar/uberbyte.rs/actions/workflows/ci.yml)
+[![Rust](https://github.com/dejanfajfar/uberbyte.rs/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/dejanfajfar/uberbyte.rs/actions/workflows/ci.yml)
 
 There is nothing in this library that cannot be done by normal bit and byte operations. 
 
@@ -10,9 +10,11 @@ My goal is to make it easier to interact with individual bits and bytes.
 
 ## Installation
 
-TBD
+The library is easily added to any project with a simple cargo command
 
-`cargo add uberbyte`
+```shell
+cargo add uberbyte 
+```
 
 ## So what can you do with it?
 
