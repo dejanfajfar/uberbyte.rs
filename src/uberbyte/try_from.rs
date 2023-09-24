@@ -27,18 +27,37 @@ try_from_unsigned!(usize);
 mod test {
     use super::*;
 
-    #[test]
-    fn from_u16(){
-        let test_value: u16 = 50;
-        let test_result = UberByte::try_from(test_value);
-        assert!(test_result.is_ok());
-        assert_eq!(UberByte::from(50), test_result.unwrap());
+    macro_rules! test_try_from {
+        ($name:tt, $source:ty) => {
+            #[test]
+            fn $name(){
+                let test_value: $source = 50;
+                let test_result = UberByte::try_from(test_value);
+                assert!(test_result.is_ok());
+                assert_eq!(UberByte::from(50), test_result.unwrap());
+            }
+        };
     }
 
-    #[test]
-    fn from_u16_overflow(){
-        let test_value: u16 = u16::MAX;
-        let test_result = UberByte::try_from(test_value);
-        assert!(test_result.is_err());
+    macro_rules! test_try_from_overflow {
+        ($name:tt, $source:ty) => {
+            #[test]
+            fn $name(){
+                let test_value: $source = <$source>::MAX;
+                let test_result = UberByte::try_from(test_value);
+                assert!(test_result.is_err());
+            }
+        };
     }
+
+    test_try_from!(try_from_u32, u32);
+    test_try_from_overflow!(try_from_u32_overflow, u32);
+    test_try_from_overflow!(try_from_u16_overflow, u16);
+    test_try_from!(try_from_u16, u16);
+    test_try_from!(try_from_u64, u64);
+    test_try_from_overflow!(try_from_u64_overflow, u64);
+    test_try_from!(try_from_u128, u128);
+    test_try_from_overflow!(try_from_u128_overflow, u128);
+    test_try_from!(try_from_usize, usize);
+    test_try_from_overflow!(try_from_usize_overflow, usize);
 }

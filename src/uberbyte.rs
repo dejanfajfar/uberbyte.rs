@@ -1,9 +1,15 @@
 use std::ops::{Add, AddAssign, BitAnd, BitAndAssign, BitOr, BitOrAssign, BitXor, BitXorAssign};
 
 pub mod try_from;
+pub mod formatters;
 
+/// Bit mask for the zero bit
 pub const ZERO_BIT_MASK: u8 = 0b_0000_0001;
+
+/// Bit mask for the first bit
 pub const FIRST_BIT_MASK: u8 = 0b_0000_0010;
+
+/// Bit mask for the second bit
 pub const SECOND_BIT_MASK: u8 = 0b_0000_0100;
 pub const THIRD_BIT_MASK: u8 = 0b_0000_1000;
 pub const FOURTH_BIT_MASK: u8 = 0b_0001_0000;
@@ -13,32 +19,89 @@ pub const SEVENTH_BIT_MASK: u8 = 0b_1000_0000;
 pub const NONE_BIT_MASK: u8 = 0b_0000_0000;
 pub const ALL_BIT_MASK: u8 = 0b_1111_1111;
 
+
+/// Defines the possible errors that can happen inside the _UberByte_ crate
 #[derive(Debug)]
 pub enum UberByteError {
+    /// The provided data overflows a single byte
     ValueOverflow,
+    /// The provided data underflows a single byte
     ValueUnderflow
 }
 
+/// Implements a simple wrapper over a __u8__ that allows you simple bit manipulation
 #[derive(Debug, Clone, PartialEq, PartialOrd, Eq, Ord)]
 pub struct UberByte {
     value: u8,
 }
 
+///
 impl UberByte {
+
+    /// Represents the maximal possible value that the _UberByte_ can handle.
+    /// All bits are set to 1.
+    /// 
+    /// # Example
+    /// 
+    /// ```rust
+    /// use uberbyte::UberByte;
+    /// 
+    /// let max = UberByte::MAX;
+    /// ```
     pub const MAX: UberByte = UberByte { value: ALL_BIT_MASK };
 
+    /// Represents the minimal possible value that a _UberByte_ can handle.
+    /// 
+    /// # Example
+    /// 
+    /// ```rust
+    /// use uberbyte::UberByte;
+    /// 
+    /// let min = UberByte::MIN;
+    /// ```
     pub const MIN: UberByte = UberByte { value: NONE_BIT_MASK };
 
+    /// Returns a new instance of a UberByte with the bits set
+    ///  to 1 according to the bit max given
+    /// 
+    /// # Example
+    /// 
+    /// ```rust
+    /// use uberbyte::UberByte;
+    /// 
+    /// let my_byte = UberByte::MIN;
+    /// 
+    /// let new_byte = my_byte.set(0b_1000_1000);
+    /// ```
     pub fn set(&self, bit_mask: u8) -> UberByte {
         let masked_value = (self.value ^ bit_mask) | self.value;
 
         return UberByte::from(masked_value);
     }
 
+    /// Sets the bits to 1 according to the bit mask
+    /// 
+    /// # Example
+    /// 
+    /// ```rust
+    /// use uberbyte::UberByte;
+    /// 
+    /// let mut my_byte = UberByte::MIN;
+    /// 
+    /// my_byte.set_mut(0b_1000_1000)
+    /// ```
+    pub fn set_mut(&mut self, bit_mask: u8) {
+        self.value = (self.value ^ bit_mask) | self.value
+    }
+
     pub fn clear(&self, bit_mask: u8) -> UberByte {
         let masked_value = (self.value ^ bit_mask) & self.value;
 
         return UberByte::from(masked_value);
+    }
+
+    pub fn clear_mut(&mut self, bit_mask: u8) {
+        self.value = (self.value ^ bit_mask) & self.value
     }
 
     pub fn flip(&self) -> UberByte {
@@ -227,5 +290,65 @@ mod test {
         let added = UberByte::from(6);
 
         assert_eq!(UberByte::from(11), augend + added);
+    }
+
+    #[test]
+    fn or(){
+        let first = UberByte::from(0b_0001_0001);
+        let second = UberByte::from(0b_0000_0001);
+
+        let  test_result = first | second;
+
+        assert_eq!(UberByte::from(0b_0001_0001), test_result)
+    }
+
+    #[test]
+    fn or_assign(){
+        let mut test_result = UberByte::from(0b_0001_0001);
+        let second = UberByte::from(0b_0000_0001);
+
+        test_result |= second;
+
+        assert_eq!(UberByte::from(0b_0001_0001), test_result)
+    }
+
+    #[test]
+    fn xor(){
+        let first = UberByte::from(0b_0001_0001);
+        let second = UberByte::from(0b_0000_0001);
+
+        let  test_result = first ^ second;
+
+        assert_eq!(UberByte::from(0b_0001_0000), test_result)
+    }
+
+    #[test]
+    fn xor_assign(){
+        let mut test_result = UberByte::from(0b_0001_0001);
+        let second = UberByte::from(0b_0000_0001);
+
+        test_result ^= second;
+
+        assert_eq!(UberByte::from(0b_0001_0000), test_result)
+    }
+
+    #[test]
+    fn and(){
+        let first = UberByte::from(0b_0001_0001);
+        let second = UberByte::from(0b_0000_0001);
+
+        let  test_result = first & second;
+
+        assert_eq!(UberByte::from(0b_0000_0001), test_result)
+    }
+
+    #[test]
+    fn and_assign(){
+        let mut test_result = UberByte::from(0b_0001_0001);
+        let second = UberByte::from(0b_0000_0001);
+
+        test_result &= second;
+
+        assert_eq!(UberByte::from(0b_0000_0001), test_result)
     }
 }
