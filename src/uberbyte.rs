@@ -108,6 +108,10 @@ impl UberByte {
         return UberByte::from(!self.value);
     }
 
+    pub fn flip_mut(&mut self) {
+        self.value = !self.value;
+    }
+
     pub fn are_set(&self, bit_mask: u8) -> bool {
         self.value & bit_mask != 0
     }
