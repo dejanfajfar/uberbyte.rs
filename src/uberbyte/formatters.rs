@@ -50,4 +50,11 @@ mod test {
 
         assert_eq!(String::from("D9"), format!("{:X}", my_bit));
     }
+
+    #[test]
+    fn octa_formatter(){
+        let my_bit = UberByte::from(0b_1001_1001);
+
+        assert_eq!(String::from("231"), format!("{:o}", my_bit));
+    }
 }
