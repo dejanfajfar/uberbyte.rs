@@ -145,6 +145,12 @@ impl UberByte {
     }
 }
 
+impl Default for UberByte {
+    fn default() -> Self {
+        Self { value: Default::default() }
+    }
+}
+
 impl From<u8> for UberByte {
     fn from(value: u8) -> Self {
         UberByte { value: value }
