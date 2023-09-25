@@ -1,6 +1,6 @@
 [package]
 name = "uberbyte"
-version = "0.0.2"
+version = "0.5.0"
 edition = "2021"
 authors = ["Dejan Fajfar <dejan@fajfar.com>"]
 license = "MIT"
