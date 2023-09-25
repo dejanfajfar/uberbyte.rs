@@ -1,4 +1,4 @@
-use std::ops::{Add, AddAssign, BitAnd, BitAndAssign, BitOr, BitOrAssign, BitXor, BitXorAssign, Shl, Shr};
+use std::ops::{Add, AddAssign, BitAnd, BitAndAssign, BitOr, BitOrAssign, BitXor, BitXorAssign, Shl, Shr, ShlAssign, ShrAssign};
 
 pub mod try_from;
 pub mod formatters;
@@ -352,12 +352,24 @@ impl Shl for UberByte {
     }
 }
 
+impl ShlAssign for UberByte {
+    fn shl_assign(&mut self, rhs: Self) {
+        self.value = self.value << rhs.value;
+    }
+}
+
 impl Shr for UberByte {
     type Output = Self;
 
     fn shr(self, rhs: Self) -> Self::Output {
         let shift_right = self.value >> rhs.value;
         UberByte::from(shift_right)
+    }
+}
+
+impl ShrAssign for UberByte {
+    fn shr_assign(&mut self, rhs: Self) {
+        self.value = self.value >> rhs.value;
     }
 }
 
@@ -512,6 +524,16 @@ mod test {
     }
 
     #[test]
+    fn shl_assign(){
+        let mut test_object = UberByte::from(0b_0000_0001);
+        let shift = UberByte::from(1);
+
+        test_object <<= shift;
+
+        assert_eq!(UberByte::from(0b_0000_0010), test_object);
+    }
+
+    #[test]
     fn shr(){
         let test_object = UberByte::from(0b_0000_1000);
         let shift = UberByte::from(1);
@@ -519,5 +541,15 @@ mod test {
         let test_result = test_object >> shift;
 
         assert_eq!(UberByte::from(0b_0000_0100), test_result);
+    }
+
+    #[test]
+    fn shr_assign(){
+        let mut test_object = UberByte::from(0b_0000_1000);
+        let shift = UberByte::from(1);
+
+        test_object >>= shift;
+
+        assert_eq!(UberByte::from(0b_0000_0100), test_object);
     }
 }
