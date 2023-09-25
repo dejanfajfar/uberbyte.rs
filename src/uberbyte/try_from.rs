@@ -1,5 +1,17 @@
 use super::{UberByte, UberByteError};
 
+impl From<u8> for UberByte {
+    fn from(value: u8) -> Self {
+        UberByte { value: value }
+    }
+}
+
+impl From<&u8> for UberByte {
+    fn from(value: &u8) -> Self {
+        UberByte { value: value.clone() }
+    }
+}
+
 macro_rules! try_from_unsigned {
     ($source:ty) => {
         impl TryFrom<$source> for UberByte {
@@ -8,6 +20,18 @@ macro_rules! try_from_unsigned {
             #[inline]
             fn try_from(u: $source) -> Result<Self, Self::Error> {
                 match u8::try_from(u) {
+                    Ok(value_u8) => Ok(UberByte::from(value_u8)),
+                    Err(_) => Err(UberByteError::ValueOverflow),
+                }
+            }
+        }
+
+        impl TryFrom<&$source> for UberByte {
+            type Error = UberByteError;
+
+            #[inline]
+            fn try_from(u: &$source) -> Result<Self, Self::Error> {
+                match u8::try_from(u.clone()) {
                     Ok(value_u8) => Ok(UberByte::from(value_u8)),
                     Err(_) => Err(UberByteError::ValueOverflow),
                 }

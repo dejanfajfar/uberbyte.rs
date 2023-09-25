@@ -4,6 +4,9 @@
 
 [![Rust](https://github.com/dejanfajfar/uberbyte.rs/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/dejanfajfar/uberbyte.rs/actions/workflows/ci.yml)
 
+![Crates.io](https://img.shields.io/crates/v/uberbyte)
+
+
 There is nothing in this library that cannot be done by normal bit and byte operations. 
 
 My goal is to make it easier to interact with individual bits and bytes.

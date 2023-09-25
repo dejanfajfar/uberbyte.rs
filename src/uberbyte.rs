@@ -94,24 +94,106 @@ impl UberByte {
         self.value = (self.value ^ bit_mask) | self.value
     }
 
+    /// Returns a new instance of a UberByte with the bits cleared
+    /// according to the given bit mask
+    /// 
+    /// # Example
+    /// 
+    /// ```rust
+    /// use uberbyte::UberByte;
+    /// 
+    /// let my_byte = UberByte::MAX;
+    /// 
+    /// let cleared_byte = my_byte.clear(0b_1000_1000); 
+    /// ```
     pub fn clear(&self, bit_mask: u8) -> UberByte {
         let masked_value = (self.value ^ bit_mask) & self.value;
 
         return UberByte::from(masked_value);
     }
 
+    /// Clears the bits to 0 according to the given bit mask
+    /// 
+    /// # Example
+    /// 
+    /// ```rust
+    /// use uberbyte::UberByte;
+    /// 
+    /// let mut my_byte = UberByte::MIN;
+    /// 
+    /// my_byte.clear_mut(0b_1000_1000)
+    /// ```
     pub fn clear_mut(&mut self, bit_mask: u8) {
         self.value = (self.value ^ bit_mask) & self.value
     }
 
+    /// Returns a new instance of a UberByte with all bits flipped
+    /// 
+    /// # Explanation
+    /// 
+    /// Flipping a bit will transform a bit to 0 if 1 and 1 if 0.
+    /// 
+    /// 0 => 1
+    /// 1 => 0
+    /// 
+    /// # Example
+    /// 
+    /// ```rust
+    /// use uberbyte::UberByte;
+    /// 
+    /// let my_byte = UberByte::MAX;
+    /// 
+    /// let flipped_byte = my_byte.flip(); 
+    /// ```
     pub fn flip(&self) -> UberByte {
         return UberByte::from(!self.value);
     }
 
+    /// Flips all bits in the UberByte
+    /// 
+    /// # Explanation
+    /// 
+    /// Flipping a bit will transform a bit to 0 if 1 and 1 if 0.
+    /// 
+    /// 0 => 1
+    /// 1 => 0
+    /// 
+    /// # Example
+    /// 
+    /// ```rust
+    /// use uberbyte::UberByte;
+    /// 
+    /// let mut my_byte = UberByte::MAX;
+    /// 
+    /// my_byte.flip_mut(); 
+    /// ```
     pub fn flip_mut(&mut self) {
         self.value = !self.value;
     }
 
+    /// Determines if all bits in the bit mask are also set
+    /// 
+    /// # Returns
+    /// 
+    /// True if all set bits in the bit mask are also set in the UberByte
+    /// False if not
+    /// 
+    /// # Example
+    /// 
+    /// ```rust
+    /// use uberbyte::UberByte;
+    /// 
+    /// let my_byte = UberByte::from(0b_0101_1010);
+    /// 
+    /// let are_set = my_byte.are_set(0b_0100_1000);
+    /// 
+    /// if (are_set) {
+    ///     println!("All bits set");
+    /// }
+    /// else {
+    ///     println!("Not all bits set");
+    /// }
+    /// ```
     pub fn are_set(&self, bit_mask: u8) -> bool {
         self.value & bit_mask != 0
     }
@@ -152,12 +234,6 @@ impl UberByte {
 impl Default for UberByte {
     fn default() -> Self {
         Self { value: Default::default() }
-    }
-}
-
-impl From<u8> for UberByte {
-    fn from(value: u8) -> Self {
-        UberByte { value: value }
     }
 }
 
