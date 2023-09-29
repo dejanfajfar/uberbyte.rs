@@ -24,22 +24,6 @@ jobs:
                 toolchain: stable
                 override: true
 
-            #- run: cargo publish --token ${CRATES_TOKEN}
-            #  env:
-            #    CRATES_TOKEN: ${{ secrets.CRATES_TOKEN }}
-            
-            - uses: johnyherangi/create-release-notes@main
-              id: create-release-notes
+            - run: cargo publish --token ${CRATES_TOKEN}
               env:
-                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-            - name: Create release
-              uses: actions/create-release@v1
-              env:
-                GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-              with:
-                tag_name: ${{ github.ref }}
-                release_name: Release ${{ github.ref }}
-                body: ${{ steps.create-release-notes.outputs.release-notes }}
-                draft: false
-                prerelease: true
+                CRATES_TOKEN: ${{ secrets.CRATES_TOKEN }}
