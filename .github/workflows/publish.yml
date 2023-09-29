@@ -3,7 +3,7 @@ name: Publish
 on:
     push:
         tags: 
-            - '*'
+            - 'v*' # limited the triggering tags to tags starting with v like v0.0.1.
     workflow_dispatch:
 
 env:
