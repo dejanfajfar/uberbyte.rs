@@ -1,7 +1,6 @@
 use uberbyte::{UberByte, FIFTH_BIT_MASK, SEVENTH_BIT_MASK};
 
-
-fn main(){
+fn main() {
     let my_byte = UberByte::from(u8::MAX);
 
     // Check if the fifth and the seventh bit are 1

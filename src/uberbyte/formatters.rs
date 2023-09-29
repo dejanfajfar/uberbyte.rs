@@ -1,4 +1,4 @@
-use std::fmt::{Binary, LowerHex, UpperHex, Octal};
+use std::fmt::{Binary, LowerHex, Octal, UpperHex};
 
 use crate::UberByte;
 
@@ -31,28 +31,28 @@ mod test {
     use super::*;
 
     #[test]
-    fn bit_formatter(){
+    fn bit_formatter() {
         let my_bit = UberByte::from(0b_1001_1001);
 
         assert_eq!(String::from("10011001"), format!("{:b}", my_bit));
     }
 
     #[test]
-    fn lowerhex_formatter(){
+    fn lowerhex_formatter() {
         let my_bit = UberByte::from(0b_1101_1001);
 
         assert_eq!(String::from("d9"), format!("{:x}", my_bit));
     }
 
     #[test]
-    fn upperhex_formatter(){
+    fn upperhex_formatter() {
         let my_bit = UberByte::from(0b_1101_1001);
 
         assert_eq!(String::from("D9"), format!("{:X}", my_bit));
     }
 
     #[test]
-    fn octa_formatter(){
+    fn octa_formatter() {
         let my_bit = UberByte::from(0b_1001_1001);
 
         assert_eq!(String::from("231"), format!("{:o}", my_bit));

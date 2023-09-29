@@ -8,7 +8,9 @@ impl From<u8> for UberByte {
 
 impl From<&u8> for UberByte {
     fn from(value: &u8) -> Self {
-        UberByte { value: value.clone() }
+        UberByte {
+            value: value.clone(),
+        }
     }
 }
 
@@ -46,7 +48,6 @@ try_from_unsigned!(u64);
 try_from_unsigned!(u128);
 try_from_unsigned!(usize);
 
-
 #[cfg(test)]
 mod test {
     use super::*;
@@ -54,7 +55,7 @@ mod test {
     macro_rules! test_try_from {
         ($name:tt, $source:ty) => {
             #[test]
-            fn $name(){
+            fn $name() {
                 let test_value: $source = 50;
                 let test_result = UberByte::try_from(test_value);
                 assert!(test_result.is_ok());
@@ -66,7 +67,7 @@ mod test {
     macro_rules! test_try_from_overflow {
         ($name:tt, $source:ty) => {
             #[test]
-            fn $name(){
+            fn $name() {
                 let test_value: $source = <$source>::MAX;
                 let test_result = UberByte::try_from(test_value);
                 assert!(test_result.is_err());

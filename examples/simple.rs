@@ -1,8 +1,7 @@
 use uberbyte::UberByte;
 
-
-fn main(){
-    let input:u8 = 8;
+fn main() {
+    let input: u8 = 8;
 
     let my_byte = UberByte::from(input);
 

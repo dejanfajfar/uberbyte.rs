@@ -1,7 +1,10 @@
-use std::ops::{Add, AddAssign, BitAnd, BitAndAssign, BitOr, BitOrAssign, BitXor, BitXorAssign, Shl, Shr, ShlAssign, ShrAssign};
+use std::ops::{
+    Add, AddAssign, BitAnd, BitAndAssign, BitOr, BitOrAssign, BitXor, BitXorAssign, Shl, ShlAssign,
+    Shr, ShrAssign,
+};
 
-pub mod try_from;
 pub mod formatters;
+pub mod try_from;
 
 /// Defines the 0 bit bit mask
 /// bin: 0000 0001
@@ -64,14 +67,13 @@ pub const NONE_BIT_MASK: u8 = 0b_0000_0000;
 /// hex: ff
 pub const ALL_BIT_MASK: u8 = 0b_1111_1111;
 
-
 /// Defines the possible errors that can happen inside the _UberByte_ crate
 #[derive(Debug)]
 pub enum UberByteError {
     /// The provided data overflows a single byte
     ValueOverflow,
     /// The provided data underflows a single byte
-    ValueUnderflow
+    ValueUnderflow,
 }
 
 /// Implements a simple wrapper over a __u8__ that allows you simple bit manipulation
@@ -82,40 +84,43 @@ pub struct UberByte {
 
 ///
 impl UberByte {
-
     /// Represents the maximal possible value that the _UberByte_ can handle.
     /// All bits are set to 1.
-    /// 
+    ///
     /// # Example
-    /// 
+    ///
     /// ```rust
     /// use uberbyte::UberByte;
-    /// 
+    ///
     /// let max = UberByte::MAX;
     /// ```
-    pub const MAX: UberByte = UberByte { value: ALL_BIT_MASK };
+    pub const MAX: UberByte = UberByte {
+        value: ALL_BIT_MASK,
+    };
 
     /// Represents the minimal possible value that a _UberByte_ can handle.
-    /// 
+    ///
     /// # Example
-    /// 
+    ///
     /// ```rust
     /// use uberbyte::UberByte;
-    /// 
+    ///
     /// let min = UberByte::MIN;
     /// ```
-    pub const MIN: UberByte = UberByte { value: NONE_BIT_MASK };
+    pub const MIN: UberByte = UberByte {
+        value: NONE_BIT_MASK,
+    };
 
     /// Returns a new instance of a UberByte with the bits set
     ///  to 1 according to the bit max given
-    /// 
+    ///
     /// # Example
-    /// 
+    ///
     /// ```rust
     /// use uberbyte::UberByte;
-    /// 
+    ///
     /// let my_byte = UberByte::MIN;
-    /// 
+    ///
     /// let new_byte = my_byte.set(0b_1000_1000);
     /// ```
     pub fn set(&self, bit_mask: u8) -> UberByte {
@@ -125,14 +130,14 @@ impl UberByte {
     }
 
     /// Sets the bits to 1 according to the bit mask
-    /// 
+    ///
     /// # Example
-    /// 
+    ///
     /// ```rust
     /// use uberbyte::UberByte;
-    /// 
+    ///
     /// let mut my_byte = UberByte::MIN;
-    /// 
+    ///
     /// my_byte.set_mut(0b_1000_1000)
     /// ```
     pub fn set_mut(&mut self, bit_mask: u8) {
@@ -141,15 +146,15 @@ impl UberByte {
 
     /// Returns a new instance of a UberByte with the bits cleared
     /// according to the given bit mask
-    /// 
+    ///
     /// # Example
-    /// 
+    ///
     /// ```rust
     /// use uberbyte::UberByte;
-    /// 
+    ///
     /// let my_byte = UberByte::MAX;
-    /// 
-    /// let cleared_byte = my_byte.clear(0b_1000_1000); 
+    ///
+    /// let cleared_byte = my_byte.clear(0b_1000_1000);
     /// ```
     pub fn clear(&self, bit_mask: u8) -> UberByte {
         let masked_value = (self.value ^ bit_mask) & self.value;
@@ -158,14 +163,14 @@ impl UberByte {
     }
 
     /// Clears the bits to 0 according to the given bit mask
-    /// 
+    ///
     /// # Example
-    /// 
+    ///
     /// ```rust
     /// use uberbyte::UberByte;
-    /// 
+    ///
     /// let mut my_byte = UberByte::MIN;
-    /// 
+    ///
     /// my_byte.clear_mut(0b_1000_1000)
     /// ```
     pub fn clear_mut(&mut self, bit_mask: u8) {
@@ -173,65 +178,65 @@ impl UberByte {
     }
 
     /// Returns a new instance of a UberByte with all bits flipped
-    /// 
+    ///
     /// # Explanation
-    /// 
+    ///
     /// Flipping a bit will transform a bit to 0 if 1 and 1 if 0.
-    /// 
+    ///
     /// 0 => 1
     /// 1 => 0
-    /// 
+    ///
     /// # Example
-    /// 
+    ///
     /// ```rust
     /// use uberbyte::UberByte;
-    /// 
+    ///
     /// let my_byte = UberByte::MAX;
-    /// 
-    /// let flipped_byte = my_byte.flip(); 
+    ///
+    /// let flipped_byte = my_byte.flip();
     /// ```
     pub fn flip(&self) -> UberByte {
         return UberByte::from(!self.value);
     }
 
     /// Flips all bits in the UberByte
-    /// 
+    ///
     /// # Explanation
-    /// 
+    ///
     /// Flipping a bit will transform a bit to 0 if 1 and 1 if 0.
-    /// 
+    ///
     /// 0 => 1
     /// 1 => 0
-    /// 
+    ///
     /// # Example
-    /// 
+    ///
     /// ```rust
     /// use uberbyte::UberByte;
-    /// 
+    ///
     /// let mut my_byte = UberByte::MAX;
-    /// 
-    /// my_byte.flip_mut(); 
+    ///
+    /// my_byte.flip_mut();
     /// ```
     pub fn flip_mut(&mut self) {
         self.value = !self.value;
     }
 
     /// Determines if all bits in the bit mask are also set
-    /// 
+    ///
     /// # Returns
-    /// 
+    ///
     /// True if all set bits in the bit mask are also set in the UberByte
     /// False if not
-    /// 
+    ///
     /// # Example
-    /// 
+    ///
     /// ```rust
     /// use uberbyte::UberByte;
-    /// 
+    ///
     /// let my_byte = UberByte::from(0b_0101_1010);
-    /// 
+    ///
     /// let are_set = my_byte.are_set(0b_0100_1000);
-    /// 
+    ///
     /// if (are_set) {
     ///     println!("All bits set");
     /// }
@@ -278,7 +283,9 @@ impl UberByte {
 
 impl Default for UberByte {
     fn default() -> Self {
-        Self { value: Default::default() }
+        Self {
+            value: Default::default(),
+        }
     }
 }
 
@@ -398,7 +405,7 @@ mod test {
     }
 
     #[test]
-    fn set_per_mask_collision(){
+    fn set_per_mask_collision() {
         let test_object = UberByte::from(0b_1000_1000);
         let test_result = test_object.set(0b_1001_0000);
 
@@ -414,14 +421,17 @@ mod test {
     }
 
     #[test]
-    fn flip(){
+    fn flip() {
         assert_eq!(UberByte::MAX.flip(), UberByte::MIN);
         assert_eq!(UberByte::MIN.flip(), UberByte::MAX);
-        assert_eq!(UberByte::from(0b_0101_0101).flip(), UberByte::from(0b_1010_1010));
+        assert_eq!(
+            UberByte::from(0b_0101_0101).flip(),
+            UberByte::from(0b_1010_1010)
+        );
     }
 
     #[test]
-    fn clear_per_mask_collision(){
+    fn clear_per_mask_collision() {
         let test_object = UberByte::from(0b_1010_0010);
         let test_result = test_object.clear(0b_1001_0000);
 
@@ -454,17 +464,17 @@ mod test {
     }
 
     #[test]
-    fn or(){
+    fn or() {
         let first = UberByte::from(0b_0001_0001);
         let second = UberByte::from(0b_0000_0001);
 
-        let  test_result = first | second;
+        let test_result = first | second;
 
         assert_eq!(UberByte::from(0b_0001_0001), test_result)
     }
 
     #[test]
-    fn or_assign(){
+    fn or_assign() {
         let mut test_result = UberByte::from(0b_0001_0001);
         let second = UberByte::from(0b_0000_0001);
 
@@ -474,17 +484,17 @@ mod test {
     }
 
     #[test]
-    fn xor(){
+    fn xor() {
         let first = UberByte::from(0b_0001_0001);
         let second = UberByte::from(0b_0000_0001);
 
-        let  test_result = first ^ second;
+        let test_result = first ^ second;
 
         assert_eq!(UberByte::from(0b_0001_0000), test_result)
     }
 
     #[test]
-    fn xor_assign(){
+    fn xor_assign() {
         let mut test_result = UberByte::from(0b_0001_0001);
         let second = UberByte::from(0b_0000_0001);
 
@@ -494,17 +504,17 @@ mod test {
     }
 
     #[test]
-    fn and(){
+    fn and() {
         let first = UberByte::from(0b_0001_0001);
         let second = UberByte::from(0b_0000_0001);
 
-        let  test_result = first & second;
+        let test_result = first & second;
 
         assert_eq!(UberByte::from(0b_0000_0001), test_result)
     }
 
     #[test]
-    fn and_assign(){
+    fn and_assign() {
         let mut test_result = UberByte::from(0b_0001_0001);
         let second = UberByte::from(0b_0000_0001);
 
@@ -514,7 +524,7 @@ mod test {
     }
 
     #[test]
-    fn shl(){
+    fn shl() {
         let test_object = UberByte::from(0b_0000_0001);
         let shift = UberByte::from(1);
 
@@ -524,7 +534,7 @@ mod test {
     }
 
     #[test]
-    fn shl_assign(){
+    fn shl_assign() {
         let mut test_object = UberByte::from(0b_0000_0001);
         let shift = UberByte::from(1);
 
@@ -534,7 +544,7 @@ mod test {
     }
 
     #[test]
-    fn shr(){
+    fn shr() {
         let test_object = UberByte::from(0b_0000_1000);
         let shift = UberByte::from(1);
 
@@ -544,7 +554,7 @@ mod test {
     }
 
     #[test]
-    fn shr_assign(){
+    fn shr_assign() {
         let mut test_object = UberByte::from(0b_0000_1000);
         let shift = UberByte::from(1);
 
