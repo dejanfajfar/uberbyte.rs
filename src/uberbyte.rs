@@ -77,7 +77,7 @@ pub enum UberByteError {
 }
 
 /// Implements a simple wrapper over a __u8__ that allows you simple bit manipulation
-#[derive(Debug, Clone, PartialEq, PartialOrd, Eq, Ord)]
+#[derive(Debug, Clone, PartialEq, PartialOrd, Eq, Ord, Copy)]
 pub struct UberByte {
     value: u8,
 }
