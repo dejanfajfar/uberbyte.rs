@@ -46,21 +46,21 @@ macro_rules! try_from_signed {
     ($source:ty) => {
         impl TryFrom<$source> for UberByte {
             type Error = UberByteError;
-        
+
             fn try_from(value: $source) -> Result<Self, Self::Error> {
                 match value {
                     ..=0 => Err(UberByteError::ValueUnderflow),
                     _ => match u8::try_from(value) {
                         Ok(vu8) => Ok(UberByte::from(vu8)),
                         Err(_) => Err(UberByteError::ValueOverflow),
-                    }
+                    },
                 }
             }
         }
-        
+
         impl TryFrom<&$source> for UberByte {
             type Error = UberByteError;
-        
+
             fn try_from(value: &$source) -> Result<Self, Self::Error> {
                 let cloned_value = value.clone();
                 return UberByte::try_from(cloned_value);
@@ -68,8 +68,6 @@ macro_rules! try_from_signed {
         }
     };
 }
-
-
 
 try_from_unsigned!(u16);
 try_from_unsigned!(u32);
@@ -107,7 +105,10 @@ mod test {
                 assert_eq!(UberByte::from(50u8), valid_result.unwrap());
 
                 // Check that a reference and values behave the same
-                assert_eq!(UberByte::try_from(&valid).unwrap(), UberByte::try_from(valid).unwrap());
+                assert_eq!(
+                    UberByte::try_from(&valid).unwrap(),
+                    UberByte::try_from(valid).unwrap()
+                );
             }
         };
     }
@@ -121,7 +122,7 @@ mod test {
                 let upper: $source = 255;
                 let valid: $source = 50;
 
-                // Check upper and lover bound 
+                // Check upper and lover bound
                 assert!(UberByte::try_from(min_value).is_err()); // fails because the value is greater than u8:MAX
                 assert!(UberByte::try_from(max_value).is_err()); // fails because the value is negative
                 assert!(UberByte::try_from(upper).is_ok()); // 255 is the upper valid bound of a u8
@@ -133,7 +134,10 @@ mod test {
                 assert_eq!(UberByte::from(50u8), valid_byte);
 
                 // Check that a reference and values behave the same
-                assert_eq!(UberByte::try_from(&valid).unwrap(), UberByte::try_from(valid).unwrap());
+                assert_eq!(
+                    UberByte::try_from(&valid).unwrap(),
+                    UberByte::try_from(valid).unwrap()
+                );
             }
         };
     }
@@ -149,5 +153,4 @@ mod test {
     test_signed!(i64, i64);
     test_signed!(i128, i128);
     test_signed!(isize, isize);
-    
 }

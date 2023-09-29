@@ -249,112 +249,112 @@ impl UberByte {
     }
 
     /// Determines if the bit at index 0 is set
-    /// 
+    ///
     /// # Returns
-    /// 
+    ///
     /// given 0000 0001 -> true
     /// given 0000 0000 -> false
-    /// 
+    ///
     /// # Remarks
-    /// 
+    ///
     /// Ignores the state of all other bits
     pub fn is_bit_0_set(&self) -> bool {
         self.are_set(ZERO_BIT_MASK)
     }
 
     /// Determines if the bit at index 1 is set
-    /// 
+    ///
     /// # Returns
-    /// 
+    ///
     /// given 0000 0010 -> true
     /// given 0000 0000 -> false
-    /// 
+    ///
     /// # Remarks
-    /// 
+    ///
     /// Ignores the state of all other bits
     pub fn is_bit_1_set(&self) -> bool {
         self.are_set(FIRST_BIT_MASK)
     }
 
     /// Determines if the bit at index 2 is set
-    /// 
+    ///
     /// # Returns
-    /// 
+    ///
     /// given 0000 0100 -> true
     /// given 0000 0000 -> false
-    /// 
+    ///
     /// # Remarks
-    /// 
+    ///
     /// Ignores the state of all other bits
     pub fn is_bit_2_set(&self) -> bool {
         self.are_set(SECOND_BIT_MASK)
     }
 
     /// Determines if the bit at index 3 is set
-    /// 
+    ///
     /// # Returns
-    /// 
+    ///
     /// given 0000 1000 -> true
     /// given 0000 0000 -> false
-    /// 
+    ///
     /// # Remarks
-    /// 
+    ///
     /// Ignores the state of all other bits
     pub fn is_bit_3_set(&self) -> bool {
         self.are_set(THIRD_BIT_MASK)
     }
 
     /// Determines if the bit at index 4 is set
-    /// 
+    ///
     /// # Returns
-    /// 
+    ///
     /// given 0001 0000 -> true
     /// given 0000 0000 -> false
-    /// 
+    ///
     /// # Remarks
-    /// 
+    ///
     /// Ignores the state of all other bits
     pub fn is_bit_4_set(&self) -> bool {
         self.are_set(FOURTH_BIT_MASK)
     }
 
     /// Determines if the bit at index 5 is set
-    /// 
+    ///
     /// # Returns
-    /// 
+    ///
     /// given 0010 0000 -> true
     /// given 0000 0000 -> false
-    /// 
+    ///
     /// # Remarks
-    /// 
+    ///
     /// Ignores the state of all other bits
     pub fn is_bit_5_set(&self) -> bool {
         self.are_set(FIFTH_BIT_MASK)
     }
 
     /// Determines if the bit at index 6 is set
-    /// 
+    ///
     /// # Returns
-    /// 
+    ///
     /// given 0100 0000 -> true
     /// given 0000 0000 -> false
-    /// 
+    ///
     /// # Remarks
-    /// 
+    ///
     /// Ignores the state of all other bits
     pub fn is_bit_6_set(&self) -> bool {
         self.are_set(SIXTH_BIT_MASK)
     }
 
     /// Determines if the bit at index 7 is set
-    /// 
+    ///
     /// # Returns
-    /// 
+    ///
     /// given 1000 0000 -> true
     /// given 0000 0000 -> false
-    /// 
+    ///
     /// # Remarks
-    /// 
+    ///
     /// Ignores the state of all other bits
     pub fn is_bit_7_set(&self) -> bool {
         self.are_set(SEVENTH_BIT_MASK)
