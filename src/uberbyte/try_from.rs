@@ -96,12 +96,18 @@ mod test {
                 let min: $source = <$source>::MIN;
                 let valid: $source = 50;
 
+                // Check the type upper and lower bound
+                // both must fail because the range is always bigger than u8
                 assert!(UberByte::try_from(max).is_err());
                 assert!(UberByte::try_from(min).is_ok());
 
+                // check a valid value
                 let valid_result = UberByte::try_from(valid);
                 assert!(valid_result.is_ok());
                 assert_eq!(UberByte::from(50u8), valid_result.unwrap());
+
+                // Check that a reference and values behave the same
+                assert_eq!(UberByte::try_from(&valid).unwrap(), UberByte::try_from(valid).unwrap());
             }
         };
     }
@@ -115,15 +121,19 @@ mod test {
                 let upper: $source = 255;
                 let valid: $source = 50;
 
-                assert!(UberByte::try_from(min_value).is_err());
-                assert!(UberByte::try_from(max_value).is_err());
-                assert!(UberByte::try_from(upper).is_ok());
+                // Check upper and lover bound 
+                assert!(UberByte::try_from(min_value).is_err()); // fails because the value is greater than u8:MAX
+                assert!(UberByte::try_from(max_value).is_err()); // fails because the value is negative
+                assert!(UberByte::try_from(upper).is_ok()); // 255 is the upper valid bound of a u8
 
                 // Blind unwrap here because we do not expect an error at this point
                 // 50 is a valid value for any signed and unsigned number type
                 let valid_byte = UberByte::try_from(valid).unwrap();
 
                 assert_eq!(UberByte::from(50u8), valid_byte);
+
+                // Check that a reference and values behave the same
+                assert_eq!(UberByte::try_from(&valid).unwrap(), UberByte::try_from(valid).unwrap());
             }
         };
     }
