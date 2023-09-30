@@ -19,6 +19,9 @@ function sample_header {
     echo -------------------------------------
 }
 
+sample_header "Create a UberByte"
+cargo run --package uberbyte --example create
+
 sample_header simple
 cargo run --package uberbyte --example is_set 
 
@@ -30,3 +33,6 @@ cargo run --package uberbyte --example check_mask_set
 
 sample_header "shift"
 cargo run --package uberbyte --example shift
+
+sample_header "Formatters"
+cargo run --package uberbyte --example formatters

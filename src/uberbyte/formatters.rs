@@ -1,4 +1,4 @@
-use std::fmt::{Binary, LowerHex, Octal, UpperHex};
+use std::fmt::{Binary, LowerHex, Octal, UpperHex, Display};
 
 use crate::UberByte;
 
@@ -23,6 +23,12 @@ impl UpperHex for UberByte {
 impl Octal for UberByte {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         f.write_fmt(format_args!("{:o}", self.value))
+    }
+}
+
+impl Display for UberByte {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        f.write_fmt(format_args!("{}", self.value))
     }
 }
 
