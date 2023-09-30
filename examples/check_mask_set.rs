@@ -1,6 +1,5 @@
 use uberbyte::{UberByte, FIFTH_BIT_MASK, SEVENTH_BIT_MASK};
 
-
 /*
 One of basic tasks that I was always most annoyed was to find out if a specific bit or bits are set.
 

@@ -1,4 +1,4 @@
-use std::fmt::{Binary, LowerHex, Octal, UpperHex, Display};
+use std::fmt::{Binary, Display, LowerHex, Octal, UpperHex};
 
 use crate::UberByte;
 

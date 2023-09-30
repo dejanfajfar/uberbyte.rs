@@ -6,7 +6,7 @@ Before you can use the UberByte you have to create it.
 And there are many ways to create one
 */
 
-fn main(){
+fn main() {
     // Create a uber byte from an unsigned u8
     println!("From u8:          {:b}", UberByte::from(12u8));
     println!("MAX value:        {:b}", UberByte::MAX);
