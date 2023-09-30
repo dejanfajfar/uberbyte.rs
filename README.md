@@ -1,57 +1,73 @@
-# uberbyte.rs
+```
+ █████  █████ █████                        ███████████              █████            
+░░███  ░░███ ░░███                        ░░███░░░░░███            ░░███             
+ ░███   ░███  ░███████   ██████  ████████  ░███    ░███ █████ ████ ███████    ██████ 
+ ░███   ░███  ░███░░███ ███░░███░░███░░███ ░██████████ ░░███ ░███ ░░░███░    ███░░███
+ ░███   ░███  ░███ ░███░███████  ░███ ░░░  ░███░░░░░███ ░███ ░███   ░███    ░███████ 
+ ░███   ░███  ░███ ░███░███░░░   ░███      ░███    ░███ ░███ ░███   ░███ ███░███░░░  
+ ░░████████   ████████ ░░██████  █████     ███████████  ░░███████   ░░█████ ░░██████ 
+  ░░░░░░░░   ░░░░░░░░   ░░░░░░  ░░░░░     ░░░░░░░░░░░    ░░░░░███    ░░░░░   ░░░░░░  
+                                                         ███ ░███                    
+                                                        ░░██████                     
+                                                         ░░░░░░                      
+```
 
 > Byte manipulation for dummies
 
 [![Rust](https://github.com/dejanfajfar/uberbyte.rs/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/dejanfajfar/uberbyte.rs/actions/workflows/ci.yml) [![Crates.io](https://img.shields.io/crates/v/uberbyte?style=flat-square)](https://crates.io/crates/uberbyte) [![docs.rs](https://img.shields.io/docsrs/uberbyte?style=flat-square&label=Documentation)](https://docs.rs/uberbyte/0.5.0/uberbyte/)
 
 
-## Backstory
+# Backstory
 
+When working with a hardware interface I found it always _tedious_ to work with individual bits. 
+Checking if one or the other is set and setting them in return to communicate with the hardware.
 
+So to make my life easier and add some convenience to the whole matter I made this.
 
-## Installation
+# Getting started
 
-The library is easily added to any project with a simple cargo command
+Add __UberByte__ to your project with:
 
 ```shell
 cargo add uberbyte 
 ```
 
-## So what can you do with it?
+# Features
 
-### See the bit states of byte
+- Easily determine the state of each bit in the byte
+- Easily change the sate of each bit in the byte
+- Flip all bits in the byte
+- Provide constant bit masks for each bit
+- Provide OR, XOR, AND operations
 
-When you somehow get a hold of byte and you would like to know if the 3rd bit is a _1_ or a _0_ you can either start looking online for help or try __uberbyte__
+# Usage
 
-```rust
-use uberbyte
+Check out the [Examples](https://github.com/dejanfajfar/uberbyte.rs/tree/main/examples) for some basic usage scenarios.
 
-pub main(){
-    let byte: u8 = 0b_0101_1100;
+# Contributing
 
-    let is_byte_3_set: bool = UberByte::from(byte).is_bit_3_set();
+If you want to contribute you can do this in many ways
 
-    ...
-}
-```
+## Fork the repository
 
-### Check if multiple bits are set
+If you would like to introduce some changes to the project feel free to fork the project and do your changes.
 
-Lets take for example that you have to combine the sate of multiple bits in order to determine one flag in your application.
+It would then be nice if you create a pull request to reintegrate the changes you made. 
 
-I had the case where bit 0,2,5 hat to be set in order for me to set and application internal flag. 
+## Create a ticket
 
-This can be easily done with
+Found a bug? Missing a feature? 
 
-```rust
-use uberbyte
+Create a ticket at our (github issues)[https://github.com/dejanfajfar/uberbyte.rs/issues].
 
-pub main(){
-    let byte: u8 = 0b_0101_1100;
+## Start a discussion
 
-    let my_flag: bool = UberByte::from(byte)
-        .are_set(0b_0010_0101);
+Any feedback that you do not want to put into the above form can just be dumped int our (github discussion page)[https://github.com/dejanfajfar/uberbyte.rs/discussions]
 
-    ...
-}
-```
+# License
+
+MIT
+
+A great overview of the license is given at (tldrlegal.com)[https://www.tldrlegal.com/license/mit-license]
+
+The license text can be found at (LICENSE)[https://github.com/dejanfajfar/uberbyte.rs/blob/main/LICENSE]
