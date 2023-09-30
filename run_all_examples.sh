@@ -20,7 +20,7 @@ function sample_header {
 }
 
 sample_header simple
-cargo run --package uberbyte --example simple 
+cargo run --package uberbyte --example is_set 
 
 sample_header set
 cargo run --package uberbyte --example set
