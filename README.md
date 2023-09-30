@@ -12,7 +12,7 @@
                                                          ░░░░░░                      
 ```
 
-> Byte manipulation for dummies
+> Bit manipulation for dummies
 
 [![Rust](https://github.com/dejanfajfar/uberbyte.rs/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/dejanfajfar/uberbyte.rs/actions/workflows/ci.yml) [![Crates.io](https://img.shields.io/crates/v/uberbyte?style=flat-square)](https://crates.io/crates/uberbyte) [![docs.rs](https://img.shields.io/docsrs/uberbyte?style=flat-square&label=Documentation)](https://docs.rs/uberbyte/0.5.0/uberbyte/)
 
