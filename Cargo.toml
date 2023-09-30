@@ -6,7 +6,6 @@ authors = ["Dejan Fajfar <dejan@fajfar.com>"]
 license = "MIT"
 repository = "https://github.com/dejanfajfar/uberbyte.rs"
 description = "Byte manipulation for dummies"
-readme = "CARGO_README.md"
 keywords = ["bit", "shift", "library", "easy", "utility"]
 autoexamples = true
 categories = ["data-structures", "parsing"]
