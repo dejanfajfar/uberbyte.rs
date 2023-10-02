@@ -516,6 +516,37 @@ mod test {
     }
 
     #[test]
+    fn is_bit_set(){
+        assert!(UberByte::MAX.is_bit_set(0));
+        assert!(UberByte::MAX.is_bit_set(1));
+        assert!(UberByte::MAX.is_bit_set(2));
+        assert!(UberByte::MAX.is_bit_set(3));
+        assert!(UberByte::MAX.is_bit_set(4));
+        assert!(UberByte::MAX.is_bit_set(5));
+        assert!(UberByte::MAX.is_bit_set(6));
+        assert!(UberByte::MAX.is_bit_set(7));
+        assert_eq!(false, UberByte::MAX.is_bit_set(8));
+
+        assert_eq!(false, UberByte::MIN.is_bit_set(0));
+        assert_eq!(false, UberByte::MIN.is_bit_set(1));
+        assert_eq!(false, UberByte::MIN.is_bit_set(2));
+        assert_eq!(false, UberByte::MIN.is_bit_set(3));
+        assert_eq!(false, UberByte::MIN.is_bit_set(4));
+        assert_eq!(false, UberByte::MIN.is_bit_set(5));
+        assert_eq!(false, UberByte::MIN.is_bit_set(6));
+        assert_eq!(false, UberByte::MIN.is_bit_set(7));
+
+        assert_eq!(false, UberByte::from(42).is_bit_set(0));
+        assert_eq!(true, UberByte::from(42).is_bit_set(1));
+        assert_eq!(false, UberByte::from(42).is_bit_set(2));
+        assert_eq!(true, UberByte::from(42).is_bit_set(3));
+        assert_eq!(false, UberByte::from(42).is_bit_set(4));
+        assert_eq!(true, UberByte::from(42).is_bit_set(5));
+        assert_eq!(false, UberByte::from(42).is_bit_set(6));
+        assert_eq!(false, UberByte::from(42).is_bit_set(7));
+    }
+
+    #[test]
     fn set_per_mask() {
         let test_object = UberByte::MIN;
         let test_result = test_object.set(0b_1001_0000);
