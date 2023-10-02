@@ -9,8 +9,7 @@ fn main() {
     for index in 0..7 {
         if my_byte.is_bit_set(index) {
             println!("Bit on position {} is set", index);
-        }
-        else {
+        } else {
             println!("Bit on position {} is not set", index);
         }
     }

@@ -1,7 +1,10 @@
-use std::{ops::{
-    Add, AddAssign, BitAnd, BitAndAssign, BitOr, BitOrAssign, BitXor, BitXorAssign, Shl, ShlAssign,
-    Shr, ShrAssign,
-}, usize};
+use std::{
+    ops::{
+        Add, AddAssign, BitAnd, BitAndAssign, BitOr, BitOrAssign, BitXor, BitXorAssign, Shl,
+        ShlAssign, Shr, ShrAssign,
+    },
+    usize,
+};
 
 pub mod formatters;
 pub mod try_from;
@@ -249,21 +252,21 @@ impl UberByte {
     }
 
     /// Determines if the given bit index is set
-    /// 
+    ///
     /// # Returns
-    /// 
+    ///
     /// TRUE if the index is set
     /// FALSE if the index is not set
-    /// 
+    ///
     /// ## Remarks
-    /// 
+    ///
     /// If the index given exceeds 7 then the answer is automatically FALSE
-    /// 
-    /// # Example 
-    /// 
+    ///
+    /// # Example
+    ///
     /// ```rust
     /// use uberbyte::UberByte;
-    /// 
+    ///
     /// let my_byte = UberByte::from(42);
     ///
     /// for index in 0..7 {
@@ -280,7 +283,7 @@ impl UberByte {
             5 => self.is_bit_5_set(),
             6 => self.is_bit_6_set(),
             7 => self.is_bit_7_set(),
-            _ => false
+            _ => false,
         }
     }
 
