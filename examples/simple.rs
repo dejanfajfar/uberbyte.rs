@@ -1,7 +1,5 @@
 use uberbyte::UberByte;
 
-/// A simple example showing how to check if a given bit in the byte is set
-
 fn main() {
     let my_byte: UberByte = UberByte::from(42);
 
