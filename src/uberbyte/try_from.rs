@@ -1,4 +1,4 @@
-use super::{UberByte, UberByteError};
+use crate::{UberByte, UberByteError};
 
 impl From<u8> for UberByte {
     fn from(value: u8) -> Self {
