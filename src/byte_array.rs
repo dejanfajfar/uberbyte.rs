@@ -1,7 +1,12 @@
-use std::{ops::Index, ops::IndexMut, str::FromStr};
+use std::{ops::Index, ops::IndexMut, str::FromStr, io::Write};
 
 use crate::{UberByte, UberByteError};
 
+/// A simple implementation of a byte array composed of UberBytes
+/// 
+/// # Remarks
+/// 
+/// 
 #[derive(Debug)]
 pub struct ByteArray {
     data: Vec<UberByte>,
@@ -83,6 +88,16 @@ impl FromStr for ByteArray {
         }
 
         return Ok(ret_val);
+    }
+}
+
+impl Write for ByteArray {
+    fn write(&mut self, buf: &[u8]) -> std::io::Result<usize> {
+        todo!()
+    }
+
+    fn flush(&mut self) -> std::io::Result<()> {
+        todo!()
     }
 }
 
