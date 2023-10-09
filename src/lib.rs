@@ -23,8 +23,8 @@
 //!
 //! Additional resources are available at (GitHub project page)[https://github.com/dejanfajfar/uberbyte.rs]
 
-pub mod uberbyte;
 pub mod byte_array;
+pub mod uberbyte;
 
 pub use uberbyte::*;
 
@@ -96,6 +96,6 @@ pub enum UberByteError {
     ValueOverflow,
     /// The provided data underflows a single byte
     ValueUnderflow,
-    /// The desired index is exceeding the length of the array 
+    /// The desired index is exceeding the length of the array
     IndexOutOfRange,
 }
