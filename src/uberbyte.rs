@@ -20,7 +20,7 @@ pub struct UberByte {
     value: u8,
 }
 
-///
+/// A simple byte manipolation utility 
 impl UberByte {
     /// Represents the maximal possible value that the _UberByte_ can handle.
     /// All bits are set to 1.
@@ -332,6 +332,31 @@ impl UberByte {
     /// Ignores the state of all other bits
     pub fn is_bit_7_set(&self) -> bool {
         self.are_set(SEVENTH_BIT_MASK)
+    }
+
+    /// Determines the number of set bits
+    /// 
+    /// # Returns
+    /// 
+    /// The number of set bits in the UberByte as a u8
+    /// 
+    /// # Remarks
+    /// 
+    /// If no bits are set the then 0 is returned
+    /// 
+    /// If all bits are set then 8 is returned
+    pub fn count_set_bits(&self) -> u8 {
+        let mut count = 0;
+        let mut n = self.value;
+        
+        while n > 0 {
+            if n & 1 == 1 {
+                count += 1;
+            }
+            n >>= 1;
+        }
+        
+        count
     }
 }
 
@@ -646,5 +671,12 @@ mod test {
         test_object >>= shift;
 
         assert_eq!(UberByte::from(0b_0000_0100), test_object);
+    }
+
+    #[test]
+    fn count_set_bits() {
+        assert_eq!(0, UberByte::MIN.count_set_bits());
+        assert_eq!(8, UberByte::MAX.count_set_bits());
+        assert_eq!(3, UberByte::from(0b_0001_0110).count_set_bits());
     }
 }
