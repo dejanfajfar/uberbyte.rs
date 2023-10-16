@@ -1,22 +1,25 @@
-use std::{ops::Index, ops::IndexMut, str::FromStr, io::Write};
+use std::{ops::Index, ops::{IndexMut, AddAssign}, str::FromStr, io::Write};
 
 use crate::{UberByte, UberByteError};
 
 /// A simple implementation of a byte array composed of UberBytes
-/// 
-/// # Remarks
-/// 
-/// 
 #[derive(Debug)]
 pub struct ByteArray {
     data: Vec<UberByte>,
 }
 
-/// Implements a simple byte array
+/// A simple abstract UberByte array
 impl ByteArray {
     /// Adds a _UberByte_ to the ByteArray
-    pub fn add(&mut self, byte: UberByte) -> &mut Self {
+    pub fn add_mut(&mut self, byte: UberByte) -> &mut Self {
         self.data.push(byte);
+        return self;
+    }
+
+    pub fn add_range_mut(&mut self, bytes: Vec<UberByte>) -> &mut Self{
+        for byte in bytes {
+            self.add_mut(byte);
+        }
         return self;
     }
 
@@ -31,6 +34,10 @@ impl ByteArray {
     /// Simple alias for the __default__
     pub fn new() -> Self {
         ByteArray::default()
+    }
+
+    pub fn add_parity_byte(&mut self) {
+
     }
 }
 
@@ -84,7 +91,7 @@ impl FromStr for ByteArray {
     fn from_str(s: &str) -> Result<Self, Self::Err> {
         let mut ret_val = ByteArray::default();
         for byte in s.as_bytes() {
-            ret_val.add(UberByte::from(byte));
+            ret_val.add_mut(UberByte::from(byte));
         }
 
         return Ok(ret_val);
@@ -93,11 +100,23 @@ impl FromStr for ByteArray {
 
 impl Write for ByteArray {
     fn write(&mut self, buf: &[u8]) -> std::io::Result<usize> {
-        todo!()
+        let byte_array = ByteArray::from(buf);
+        for byte in byte_array.into_iter() {
+            self.add_mut(byte);
+        }
+        return Ok(buf.len());
     }
 
     fn flush(&mut self) -> std::io::Result<()> {
-        todo!()
+        return Ok(());
+    }
+}
+
+impl AddAssign for ByteArray {
+    fn add_assign(&mut self, rhs: Self) {
+        for byte in rhs.into_iter() {
+            self.add_mut(byte);
+        }
     }
 }
 
@@ -129,12 +148,35 @@ mod test {
     }
 
     #[test]
+    #[should_panic]
+    fn indexer_out_of_range(){
+        ByteArray::default()[usize::MAX];
+    }
+
+    #[test]
+    fn get(){
+        let vector = vec![1, 2, 3, 4, 5];
+        let test_array: ByteArray = ByteArray::from(vector);
+
+        assert_eq!(&UberByte::from(1), test_array.get(0).unwrap());
+        assert_eq!(&UberByte::from(2), test_array.get(1).unwrap());
+        assert_eq!(&UberByte::from(3), test_array.get(2).unwrap());
+        assert_eq!(&UberByte::from(4), test_array.get(3).unwrap());
+        assert_eq!(&UberByte::from(5), test_array.get(4).unwrap());
+    }
+
+    #[test]
+    fn get_index_out_of_range(){
+        assert!(ByteArray::default().get(usize::MAX).is_none());
+    }
+
+    #[test]
     fn len() {
         let mut test_array = ByteArray::default();
         
         assert_eq!(0, test_array.len());
 
-        test_array.add(UberByte::from(15));
+        test_array.add_mut(UberByte::from(15));
 
         assert_eq!(1, test_array.len());
     }
