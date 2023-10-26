@@ -1,12 +1,28 @@
 use uberbyte::{ByteArray, UberByte, FIFTH_BIT_MASK};
 
-fn main() {
-    let mut command = ByteArray::default();
-    let mac_address = ByteArray::from(vec![0xBC, 0xD0, 0x74, 0x22, 0x66, 0x37]);
-    let command_identifier = ByteArray::from(vec![12, 03]);
+/*
+In this example the capabilities of the ByteArray is show when creating custom binary commands
 
-    // Add command start
-    command.add_mut(UberByte::from(0xFF));
+This example will compose a command in the following format
+
+byte 00 -> command category
+byte 01 -> command identifier
+byte 02 -> MAC address
+byte 03 -> MAC address
+byte 04 -> MAC address
+byte 05 -> MAC address
+byte 06 -> MAC address
+byte 07 -> MAC address
+byte 08 -> MAC address
+byte 09 -> Command parameter
+*/
+fn main() {
+    // Create a new instance of the ByteArray
+    let mut command = ByteArray::default();
+    // A sample MAC address
+    let mac_address = ByteArray::from(vec![0xBC, 0xD0, 0x74, 0x22, 0x66, 0x37]);
+    // 2 byte command category and command identifier
+    let command_identifier = ByteArray::from(vec![12, 03]);
 
     // Add command identifier
     command += command_identifier;
