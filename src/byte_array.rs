@@ -1,32 +1,80 @@
-use std::{ops::Index, ops::{IndexMut, AddAssign}, str::FromStr, io::Write};
+use std::{
+    io::Write,
+    ops::Index,
+    ops::{AddAssign, IndexMut},
+    str::FromStr,
+};
 
 use crate::{UberByte, UberByteError};
 
 /// A simple implementation of a byte array composed of UberBytes
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 pub struct ByteArray {
     data: Vec<UberByte>,
 }
 
 /// A simple abstract UberByte array
 impl ByteArray {
-    /// Adds a _UberByte_ to the ByteArray
-    pub fn add_mut(&mut self, byte: UberByte) -> &mut Self {
-        self.data.push(byte);
-        return self;
+
+    /// Add the byte to the byte array
+    /// 
+    /// # Returns
+    /// 
+    /// A copy of the original array with the new byte attached
+    pub fn add(&self, byte: UberByte) -> Self {
+        let mut clone = self.clone();
+        clone.add_mut(byte);
+        return clone;
     }
 
-    pub fn add_range_mut(&mut self, bytes: Vec<UberByte>) -> &mut Self{
+    /// Adds a _UberByte_ to the ByteArray
+    pub fn add_mut(&mut self, byte: UberByte) {
+        self.data.push(byte);
+    }
+
+    /// Adds a range of UberBytes to the existing ByteArray
+    /// 
+    /// # Returns
+    /// 
+    /// The byte array with the byte added
+    pub fn add_range_mut(&mut self, bytes: Vec<UberByte>){
         for byte in bytes {
             self.add_mut(byte);
         }
-        return self;
     }
 
+    /// Adds many bytes to the given byte array
+    /// 
+    /// # Returns
+    /// 
+    /// Returns a clone of the original array with the bytes attached
+    pub fn add_range(&self, bytes: Vec<UberByte>) -> Self {
+        let mut clone = self.clone();
+        clone.add_range_mut(bytes);
+        return clone;
+    }
+
+    /// Retrieves the byte at the specific index
+    /// 
+    /// # Returns
+    /// 
+    /// A option of a UberByte
+    /// 
+    /// If a byte exists at this index then a copy of this Byte will be returned
+    /// If not the None will be returned
     pub fn get(&self, index: usize) -> Option<&UberByte> {
         self.data.get(index)
     }
 
+    /// Returns the number of bytes stored in this byte array
+    /// 
+    /// # Returns
+    /// 
+    /// The number of bytes stored in the byte array
+    /// 
+    /// # Remarks
+    /// 
+    /// If the byte array is empty then 0 will be returned
     pub fn len(&self) -> usize {
         self.data.len()
     }
@@ -36,8 +84,24 @@ impl ByteArray {
         ByteArray::default()
     }
 
-    pub fn add_parity_byte(&mut self) {
+    /// Adds a simple parity byte so that the complete number ob bits is dividable by 2
+    ///
+    /// # Returns
+    /// 
+    /// Returns a indicator that a parity _byte_ was added.
+    /// 
+    /// # Remarks
+    /// 
+    /// If a parity byte was added then the length of the array was changed and will be longer by 1
+    pub fn add_parity_byte(&mut self) -> bool {
+        let sum_of_bits: u8 = self.clone().into_iter().map(|b| b.count_set_bits()).sum();
 
+        if sum_of_bits % 2 == 0 {
+            return false;
+        }
+
+        self.add_mut(UberByte::from(0b_0000_0001));
+        return true;
     }
 }
 
@@ -133,10 +197,6 @@ mod test {
         let byte_array: ByteArray = foo.unwrap();
 
         assert_eq!(6, byte_array.len());
-
-        for byte in byte_array.into_iter() {
-            println!("{:b}", byte);
-        }
     }
 
     #[test]
@@ -149,12 +209,12 @@ mod test {
 
     #[test]
     #[should_panic]
-    fn indexer_out_of_range(){
+    fn indexer_out_of_range() {
         ByteArray::default()[usize::MAX];
     }
 
     #[test]
-    fn get(){
+    fn get() {
         let vector = vec![1, 2, 3, 4, 5];
         let test_array: ByteArray = ByteArray::from(vector);
 
@@ -166,18 +226,56 @@ mod test {
     }
 
     #[test]
-    fn get_index_out_of_range(){
+    fn get_index_out_of_range() {
         assert!(ByteArray::default().get(usize::MAX).is_none());
     }
 
     #[test]
     fn len() {
         let mut test_array = ByteArray::default();
-        
+
         assert_eq!(0, test_array.len());
 
         test_array.add_mut(UberByte::from(15));
 
         assert_eq!(1, test_array.len());
+    }
+
+    #[test]
+    fn add() {
+        let test_array = ByteArray::default();
+
+        let new_test_array = test_array.add(UberByte::from(12));
+
+        assert_eq!(0, test_array.len());
+        assert_eq!(1, new_test_array.len());
+    }
+
+    #[test]
+    fn add_mut(){
+        let mut test_array = ByteArray::default();
+
+        test_array.add_mut(UberByte::from(12));
+
+        assert_eq!(1, test_array.len());
+    }
+
+    #[test]
+    fn add_range(){
+        let test_array = ByteArray::default();
+
+        let result_array = test_array.add_range(vec![UberByte::from(12), UberByte::from(13)]);
+
+        assert_eq!(2, result_array.len());
+        assert_eq!(0, test_array.len());
+    }
+
+    #[test]
+    fn add_range_mut(){
+        let mut test_array = ByteArray::default();
+
+        test_array.add_range_mut(vec![UberByte::from(12), UberByte::from(13)]);
+
+        assert_eq!(2, test_array.len());
     }
 }
