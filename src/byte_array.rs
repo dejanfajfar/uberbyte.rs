@@ -2,7 +2,8 @@ use std::{
     io::Write,
     ops::Index,
     ops::{AddAssign, IndexMut},
-    str::FromStr, slice::SliceIndex,
+    slice::SliceIndex,
+    str::FromStr,
 };
 
 use crate::{UberByte, UberByteError};
@@ -15,11 +16,10 @@ pub struct ByteArray {
 
 /// A simple abstract UberByte array
 impl ByteArray {
-
     /// Add the byte to the byte array
-    /// 
+    ///
     /// # Returns
-    /// 
+    ///
     /// A copy of the original array with the new byte attached
     pub fn add(&self, byte: UberByte) -> Self {
         let mut clone = self.clone();
@@ -33,20 +33,20 @@ impl ByteArray {
     }
 
     /// Adds a range of UberBytes to the existing ByteArray
-    /// 
+    ///
     /// # Returns
-    /// 
+    ///
     /// The byte array with the byte added
-    pub fn add_range_mut(&mut self, bytes: Vec<UberByte>){
+    pub fn add_range_mut(&mut self, bytes: Vec<UberByte>) {
         for byte in bytes {
             self.add_mut(byte);
         }
     }
 
     /// Adds many bytes to the given byte array
-    /// 
+    ///
     /// # Returns
-    /// 
+    ///
     /// Returns a clone of the original array with the bytes attached
     pub fn add_range(&self, bytes: Vec<UberByte>) -> Self {
         let mut clone = self.clone();
@@ -55,11 +55,11 @@ impl ByteArray {
     }
 
     /// Retrieves the byte at the specific index
-    /// 
+    ///
     /// # Returns
-    /// 
+    ///
     /// A option of a UberByte
-    /// 
+    ///
     /// If a byte exists at this index then a copy of this Byte will be returned
     /// If not the None will be returned
     pub fn get(&self, index: usize) -> Option<&UberByte> {
@@ -67,13 +67,13 @@ impl ByteArray {
     }
 
     /// Returns the number of bytes stored in this byte array
-    /// 
+    ///
     /// # Returns
-    /// 
+    ///
     /// The number of bytes stored in the byte array
-    /// 
+    ///
     /// # Remarks
-    /// 
+    ///
     /// If the byte array is empty then 0 will be returned
     pub fn len(&self) -> usize {
         self.data.len()
@@ -87,11 +87,11 @@ impl ByteArray {
     /// Adds a simple parity byte so that the complete number ob bits is dividable by 2
     ///
     /// # Returns
-    /// 
+    ///
     /// Returns a indicator that a parity _byte_ was added.
-    /// 
+    ///
     /// # Remarks
-    /// 
+    ///
     /// If a parity byte was added then the length of the array was changed and will be longer by 1
     pub fn add_parity_byte(&mut self) -> bool {
         let sum_of_bits: u8 = self.clone().into_iter().map(|b| b.count_set_bits()).sum();
@@ -255,7 +255,7 @@ mod test {
     }
 
     #[test]
-    fn add_mut(){
+    fn add_mut() {
         let mut test_array = ByteArray::default();
 
         test_array.add_mut(UberByte::from(12));
@@ -264,7 +264,7 @@ mod test {
     }
 
     #[test]
-    fn add_range(){
+    fn add_range() {
         let test_array = ByteArray::default();
 
         let result_array = test_array.add_range(vec![UberByte::from(12), UberByte::from(13)]);
@@ -274,7 +274,7 @@ mod test {
     }
 
     #[test]
-    fn add_range_mut(){
+    fn add_range_mut() {
         let mut test_array = ByteArray::default();
 
         test_array.add_range_mut(vec![UberByte::from(12), UberByte::from(13)]);

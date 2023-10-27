@@ -26,8 +26,8 @@
 pub mod byte_array;
 pub mod uberbyte;
 
-pub use uberbyte::*;
 pub use byte_array::*;
+pub use uberbyte::*;
 
 /// Defines the 0 bit bit mask
 /// bin: 0000 0001

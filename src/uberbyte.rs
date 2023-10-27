@@ -20,7 +20,7 @@ pub struct UberByte {
     value: u8,
 }
 
-/// A simple byte manipolation utility 
+/// A simple byte manipolation utility
 impl UberByte {
     /// Represents the maximal possible value that the _UberByte_ can handle.
     /// All bits are set to 1.
@@ -335,27 +335,27 @@ impl UberByte {
     }
 
     /// Determines the number of set bits
-    /// 
+    ///
     /// # Returns
-    /// 
+    ///
     /// The number of set bits in the UberByte as a u8
-    /// 
+    ///
     /// # Remarks
-    /// 
+    ///
     /// If no bits are set the then 0 is returned
-    /// 
+    ///
     /// If all bits are set then 8 is returned
     pub fn count_set_bits(&self) -> u8 {
         let mut count = 0;
         let mut n = self.value;
-        
+
         while n > 0 {
             if n & 1 == 1 {
                 count += 1;
             }
             n >>= 1;
         }
-        
+
         count
     }
 }
