@@ -358,6 +358,15 @@ impl UberByte {
 
         count
     }
+
+    /// Gets the internal value as a u8
+    /// 
+    /// # Returns
+    /// 
+    /// The internal byte value as a u8
+    pub fn into_u8(&self) -> u8 {
+        self.value
+    }
 }
 
 impl Default for UberByte {

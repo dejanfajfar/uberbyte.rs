@@ -1,5 +1,3 @@
-use std::str::FromStr;
-
 use uberbyte::{ByteArray, UberByte};
 
 /*
@@ -17,11 +15,13 @@ fn main() {
     let foo = ByteArray::from(vec![12, 13, 14]);
 
     let slice = to_u16(foo[1..2].to_vec());
-    let deviceId = u16::from(slice);
+    let device_id = u16::from(slice);
+
+    println!("{}", device_id)
 }
 
 fn to_u16(bytes: Vec<UberByte>) -> u16 {
-    let u8_array: Vec<u8> = bytes.into_iter().map(|f| f.into()).collect();
+    let u8_array: Vec<u8> = bytes.into_iter().map(|f| f.into_u8()).collect();
     let foo = u8_array
         .chunks_exact(2)
         .map(|chunk| <[u8; 2]>::try_from(chunk).unwrap())
