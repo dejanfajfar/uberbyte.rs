@@ -55,6 +55,7 @@ cargo add uberbyte
 - Flip all bits in the byte
 - Provide constant bit masks for each bit
 - Provide OR, XOR, AND operations
+- A developer friendly implementation of a byte array
 
 # Usage
 

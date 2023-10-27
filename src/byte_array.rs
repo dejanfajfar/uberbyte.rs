@@ -2,7 +2,7 @@ use std::{
     io::Write,
     ops::Index,
     ops::{AddAssign, IndexMut},
-    str::FromStr,
+    str::FromStr, slice::SliceIndex,
 };
 
 use crate::{UberByte, UberByteError};
@@ -111,17 +111,20 @@ impl Default for ByteArray {
     }
 }
 
-impl Index<usize> for ByteArray {
-    type Output = UberByte;
-
-    fn index(&self, index: usize) -> &Self::Output {
-        &self.data[index]
-    }
-}
-
 impl IndexMut<usize> for ByteArray {
     fn index_mut(&mut self, index: usize) -> &mut Self::Output {
         &mut self.data[index]
+    }
+}
+
+impl<Idx> Index<Idx> for ByteArray
+where
+    Idx: SliceIndex<[UberByte]>,
+{
+    type Output = Idx::Output;
+
+    fn index(&self, index: Idx) -> &Self::Output {
+        &self.data[index]
     }
 }
 
